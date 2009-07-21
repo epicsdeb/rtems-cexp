@@ -1,0 +1,48 @@
+Source: rtems-cexp
+Section: unknown
+Priority: extra
+Maintainer: Michael Davidsaver <mdavidsaver@bnl.gov>
+Build-Depends: debhelper (>= 7), autotools-dev, rtems-libbspext-mvme2100, rtems-libbspext-mvme3100, rtems-libbspext-mvme5500, rtems-pc386
+Standards-Version: 3.7.3
+Homepage: http://www.slac.stanford.edu/~strauman/rtems
+
+Package: rtems-cexp-doc
+Architecture: all
+Description: Documentation for rtems-cexp
+ C Expression shell and object loader from RTEMS
+
+Package: rtems-cexp-mvme2100
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-libbspext-mvme2100
+Recommends: rtems-cexp-doc
+Description: Documentation for rtems-cexp
+ C Expression shell and object loader from RTEMS
+ .
+ This package contains libraries and headers for the MVME2100 PowerPC based SBC
+
+Package: rtems-cexp-mvme3100
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-libbspext-mvme3100
+Recommends: rtems-cexp-doc
+Description: Documentation for rtems-cexp
+ C Expression shell and object loader from RTEMS
+ .
+ This package contains libraries and headers for the MVME3100 PowerPC based SBC
+
+Package: rtems-cexp-mvme5500
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-libbspext-mvme5500
+Recommends: rtems-cexp-doc
+Description: Documentation for rtems-cexp
+ C Expression shell and object loader from RTEMS
+ .
+ This package contains libraries and headers for the MVME5500 PowerPC based SBC
+
+Package: rtems-cexp-pc386
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-pc386
+Recommends: rtems-cexp-doc
+Description: Documentation for rtems-cexp
+ C Expression shell and object loader from RTEMS
+ .
+ This package contains libraries and headers for 386 compatible cpu with standard PC hardware.

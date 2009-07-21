@@ -1,0 +1,176 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+ifeq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+CFLAGS:=$(filter-out -g,$(CFLAGS))
+CXXFLAGS:=$(filter-out -g,$(CXXFLAGS))
+endif
+
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+MAKEFLAGS += -j$(NUMJOBS)
+endif
+
+RTEMS_VER ?=4.9
+
+ARCHS=powerpc i386
+
+powerpc_BSPS=mvme2100 mvme3100 mvme5500
+i386_BSPS=pc386
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_TARGET_GNU_TYPE ?= $(1)-rtems$(RTEMS_VER)
+CONFIG= --target=$(call DEB_TARGET_GNU_TYPE,$(1)) --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE) \
+ --with-rtems-top=/usr --enable-rtemsbsp="$($(1)_BSPS)" --enable-std-rtems-installdirs \
+ --with-man-pages=no
+
+
+configure-pre:
+	dh_testdir
+	# Add here commands to configure the package.
+ifneq "$(wildcard /usr/share/misc/config.sub)" ""
+	cp -f /usr/share/misc/config.sub config.sub
+endif
+ifneq "$(wildcard /usr/share/misc/config.guess)" ""
+	cp -f /usr/share/misc/config.guess config.guess
+endif
+	touch $@
+
+build-%/config.status: configure configure-pre
+	test -d $(dir $@) || install -d $(dir $@)
+	cd $(dir $@) && ../configure $(call CONFIG,$(@:build-%/config.status=%))
+.SECONDARY: $(foreach arch,$(ARCHS),build-$(arch)/config.status)
+
+#Architecture
+build: build-arch build-indep
+
+build-arch: build-arch-stamp
+build-arch-stamp: $(foreach arch,$(ARCHS),$(arch)-build)
+	touch $@
+
+%-build: build-%/config.status 
+
+	# Add here commands to compile the arch part of the package.
+	env -u CFLAGS -u CXXFLAGS $(MAKE) -C build-$(@:%-build=%)
+
+build-indep: build-indep-stamp
+build-indep-stamp: 
+
+	# Add here commands to compile the indep part of the package.
+	#$(MAKE) doc
+	touch $@
+
+clean: 
+	dh_testdir
+	dh_testroot
+	rm -f build-arch-stamp build-indep-stamp 
+
+	# Add here commands to clean up after the build process.
+	rm -rf $(foreach arch,$(ARCHS),build-$(arch))
+	rm -f configure-pre config.sub config.guess
+
+install: install-indep install-arch
+install-indep:
+	dh_testdir
+	dh_testroot
+	dh_clean -k -i
+	dh_installdirs -i
+
+	# Add here commands to install the indep part of the package into
+	# debian/<package>-doc.
+	install -m 644 -d debian/rtems-cexp-doc/usr/share/rtems-cexp
+	install -m 644 -t debian/rtems-cexp-doc/usr/share/rtems-cexp README* LICENSE INSTALL ChangeLog
+	install -m 644 regexp/README debian/rtems-cexp-doc/usr/share/rtems-cexp/README.regexp
+	install -m 644 libtecla/README debian/rtems-cexp-doc/usr/share/rtems-cexp/README.libtecla
+	install -m 644 pmbfd/LICENSE debian/rtems-cexp-doc/usr/share/rtems-cexp/LICENSE.pmbfd
+
+	dh_install -i
+
+install-arch-pre:
+	dh_testdir
+	dh_testroot
+	dh_clean -k -s
+	dh_installdirs -s
+
+	# Add here commands to install the arch part of the package into
+	# debian/tmp.
+
+%-install-arch:
+	# Add here commands to compile the arch part of the package.
+	env -u CFLAGS -u CXXFLAGS $(MAKE) -C build-$(@:%-install-arch=%) DESTDIR=$(CURDIR)/debian/tmp install
+
+install-cpu: $(foreach arch,$(ARCHS),$(arch)-install-arch)
+
+# Install individual BSP
+# $(1) is bsp name (ie mvme3100)
+# $(2) is arch name (ie powerpc)
+define bsp-install
+
+install-$(2)-$(1):
+	install -d $(CURDIR)/debian/rtems-cexp-$(1)/usr/$(2)-rtems$(RTEMS_VER)
+	mv $(CURDIR)/debian/tmp/usr/$(2)-rtems$(RTEMS_VER)/$(1) $(CURDIR)/debian/rtems-cexp-$(1)/usr/$(2)-rtems$(RTEMS_VER)/
+
+install-bsps += install-$(2)-$(1)
+
+endef
+
+$(eval $(foreach arch,$(ARCHS),$(foreach bsp,$($(arch)_BSPS),$(call bsp-install,$(bsp),$(arch)))))
+#$(eval $(foreach bsp,$(powerpc_BSPS),$(call bsp-install,$(bsp),powerpc)))
+#$(eval $(call bsp-install,mvme3100,powerpc))
+
+install-arch-post:
+	rm -rf $(CURDIR)/debian/tmp
+	dh_install -s
+
+install-arch: install-arch-pre install-cpu $(install-bsps) install-arch-post
+
+# Must not depend on anything. This is to be called by
+# binary-arch/binary-indep
+# in another 'make' thread.
+binary-common:
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs ChangeLog
+	dh_installdocs
+	dh_installexamples
+#	dh_installmenu
+#	dh_installdebconf	
+#	dh_installlogrotate	
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_python
+#	dh_installinit
+#	dh_installcron
+#	dh_installinfo
+	dh_installman
+	dh_link
+#	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_perl
+#	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+# Build architecture independant packages using the common target.
+binary-indep: build-indep install-indep
+	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+
+# Build architecture dependant packages using the common target.
+binary-arch: build-arch install-arch
+	$(MAKE) -f debian/rules DH_OPTIONS=-s binary-common
+
+binary: binary-arch binary-indep
+.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch 

@@ -1,0 +1,6 @@
+rtems-cexp (2.0b-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Tue, 21 Jul 2009 14:23:28 -0400
+
