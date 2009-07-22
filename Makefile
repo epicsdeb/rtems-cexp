@@ -143,7 +143,7 @@ RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	install-pdf-recursive install-ps-recursive install-recursive \
 	installcheck-recursive installdirs-recursive pdf-recursive \
 	ps-recursive uninstall-recursive
-am__include_HEADERS_DIST = cexp.h cexpHelp.h ctyps.h cexpsyms.h
+am__include_HEADERS_DIST = cexp.h cexpHelp.h ctyps.h cexpsyms.h cexpmod.h cexpmodP.h cexpsegsP.h cexpsymsP.h
 includeHEADERS_INSTALL = $(INSTALL_HEADER)
 HEADERS = $(include_HEADERS)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
@@ -339,7 +339,7 @@ gencore_SOURCES = gencore.c
 XTRAOBJS = $(SEGS_SRCS:%.c=%.$(OBJEXT)) $(SYMF_SRCS:%.c=%.$(OBJEXT)) \
 	$(TECLA_SRCS:%.c=%.$(OBJEXT)) builddate.$(OBJEXT)
 lib_LIBRARIES = libcexp.a
-include_HEADERS = cexp.h cexpHelp.h ctyps.h cexpsyms.h
+include_HEADERS = cexp.h cexpHelp.h ctyps.h cexpsyms.h cexpmod.h cexpmodP.h cexpsegsP.h cexpsymsP.h
 libcexp_a_SOURCES = $(SRCS)
 EXTRA_libcexp_a_SOURCES = $(EXTRA_SRCS)
 AM_CPPFLAGS = -I../regexp $(MDBGCFLAGS) \

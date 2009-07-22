@@ -119,7 +119,7 @@ XTRAOBJS+= builddate.$(OBJEXT)
 if DO_CEXPLIB
 
 lib_LIBRARIES=libcexp.a
-include_HEADERS = cexp.h cexpHelp.h ctyps.h cexpsyms.h
+include_HEADERS = cexp.h cexpHelp.h ctyps.h cexpsyms.h cexpmod.h cexpmodP.h cexpsegsP.h cexpsymsP.h
 
 
 libcexp_a_SOURCES=$(SRCS)
