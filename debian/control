@@ -1,5 +1,5 @@
 Source: rtems-cexp
-Section: unknown
+Section: devel
 Priority: extra
 Maintainer: Michael Davidsaver <mdavidsaver@bnl.gov>
 Build-Depends: debhelper (>= 7), autotools-dev,
@@ -9,13 +9,6 @@ Build-Depends: debhelper (>= 7), autotools-dev,
                rtems-pc386 (>= 4.9.2), rtems-pc386 (<< 4.9.3)
 Standards-Version: 3.8.0
 Homepage: http://www.slac.stanford.edu/~strauman/rtems
-
-Package: rtems-cexp-doc
-Architecture: all
-Description: C Expression shell and object loader from RTEMS
- Run-time interactive shell, dynamic loader, and other useful addons.
- .
- This package contains documentation
 
 Package: rtems-cexp-mvme2100
 Architecture: any

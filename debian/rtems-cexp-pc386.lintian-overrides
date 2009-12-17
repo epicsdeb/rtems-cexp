@@ -1,0 +1,3 @@
+rtems-cexp-pc386 binary: non-standard-dir-in-usr
+rtems-cexp-pc386 binary: file-in-unusual-dir
+# Cross compile lives in usr/*/include an similar

@@ -3,13 +3,13 @@ Tue, 21 Jul 2009 14:23:28 -0400.
 
 It was downloaded from http://www.slac.stanford.edu/~strauman/rtems
 
-Upstream Author(s):
+Upstream Authors:
 
     Till Straumann <strauman@slac.stanford.edu>
 
 Copyright:
 
-    Till Straumann <strauman@slac.stanford.edu>, 2002-2008,
+    Copyright, 2002-2008,
     Stanford Linear Accelerator Center, Stanford University.
 
 License:
@@ -78,7 +78,3 @@ found in `/usr/share/common-licenses/BSD'.
 
 The Debian packaging is (C) 2009, Michael Davidsaver <mdavidsaver@bnl.gov> and
 is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
-
-
-# Please also look if there are files or directories which have a
-# different copyright/license attached and list them here.
