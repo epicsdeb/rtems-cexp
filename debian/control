@@ -2,8 +2,12 @@ Source: rtems-cexp
 Section: unknown
 Priority: extra
 Maintainer: Michael Davidsaver <mdavidsaver@bnl.gov>
-Build-Depends: debhelper (>= 7), autotools-dev, rtems-mvme2100, rtems-mvme3100, rtems-mvme5500, rtems-pc386
-Standards-Version: 3.7.3
+Build-Depends: debhelper (>= 7), autotools-dev,
+               rtems-mvme2100 (>= 4.9.2), rtems-mvme2100 (<< 4.9.3),
+               rtems-mvme3100 (>= 4.9.2), rtems-mvme3100 (<< 4.9.3),
+               rtems-mvme5500 (>= 4.9.2), rtems-mvme5500 (<< 4.9.3),
+               rtems-pc386 (>= 4.9.2), rtems-pc386 (<< 4.9.3)
+Standards-Version: 3.8.0
 Homepage: http://www.slac.stanford.edu/~strauman/rtems
 
 Package: rtems-cexp-doc
@@ -15,7 +19,8 @@ Description: C Expression shell and object loader from RTEMS
 
 Package: rtems-cexp-mvme2100
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-mvme2100
+Depends: ${shlibs:Depends}, ${misc:Depends},
+         rtems-mvme2100 (>= 4.9.2), rtems-mvme2100 (<< 4.9.3)
 Recommends: rtems-cexp-doc
 Description: C Expression shell and object loader from RTEMS
  Run-time interactive shell, dynamic loader, and other useful addons.
@@ -24,7 +29,8 @@ Description: C Expression shell and object loader from RTEMS
 
 Package: rtems-cexp-mvme3100
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-mvme3100
+Depends: ${shlibs:Depends}, ${misc:Depends},
+         rtems-mvme3100 (>= 4.9.2), rtems-mvme3100 (<< 4.9.3)
 Recommends: rtems-cexp-doc
 Description: C Expression shell and object loader from RTEMS
  Run-time interactive shell, dynamic loader, and other useful addons.
@@ -33,7 +39,8 @@ Description: C Expression shell and object loader from RTEMS
 
 Package: rtems-cexp-mvme5500
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-mvme5500
+Depends: ${shlibs:Depends}, ${misc:Depends},
+         rtems-mvme5500 (>= 4.9.2), rtems-mvme5500 (<< 4.9.3)
 Recommends: rtems-cexp-doc
 Description: C Expression shell and object loader from RTEMS
  Run-time interactive shell, dynamic loader, and other useful addons.
@@ -42,7 +49,8 @@ Description: C Expression shell and object loader from RTEMS
 
 Package: rtems-cexp-pc386
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-pc386
+Depends: ${shlibs:Depends}, ${misc:Depends},
+         rtems-pc386 (>= 4.9.2), rtems-pc386 (<< 4.9.3)
 Recommends: rtems-cexp-doc
 Description: C Expression shell and object loader from RTEMS
  Run-time interactive shell, dynamic loader, and other useful addons.
