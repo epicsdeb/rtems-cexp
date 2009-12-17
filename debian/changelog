@@ -1,3 +1,9 @@
+rtems-cexp (2.0b-2) unstable; urgency=low
+
+  * Add dependency on specific RTEMS version to aid upgrades
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Thu, 17 Dec 2009 16:55:37 -0500
+
 rtems-cexp (2.0b-1) unstable; urgency=low
 
   * Initial release
