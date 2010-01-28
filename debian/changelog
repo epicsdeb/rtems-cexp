@@ -1,3 +1,9 @@
+rtems-cexp (2.0b-4) unstable; urgency=low
+
+  * Build for mvme2307
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Wed, 27 Jan 2010 21:22:05 -0500
+
 rtems-cexp (2.0b-3) unstable; urgency=low
 
   * Generate dependency list using rtems-debhelper
