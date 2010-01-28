@@ -21,7 +21,7 @@ RTEMS_VER ?=4.9
 
 ARCHS=powerpc i386
 
-powerpc_BSPS=mvme2100 mvme3100 mvme5500
+powerpc_BSPS=mvme2100 mvme2307 mvme3100 mvme5500
 i386_BSPS=pc386
 
 # These are used for cross-compiling and for saving the configure script
