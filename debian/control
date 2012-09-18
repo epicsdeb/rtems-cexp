@@ -46,6 +46,16 @@ Description: C Expression shell and object loader from RTEMS
  .
  This package contains libraries and headers for the MVME5500 PowerPC based SBC
 
+Package: rtems-cexp-beatnik
+Architecture: any
+Depends: ${rtems:Depends}
+Recommends: rtems-cexp-doc
+Description: C Expression shell and object loader from RTEMS
+ Run-time interactive shell, dynamic loader, and other useful addons.
+ .
+ This package contains libraries and headers for the beatnik BSP which
+ supports MVME5500 and MVME6100 PowerPC based SBCs
+
 Package: rtems-cexp-pc386
 Architecture: any
 Depends: ${rtems:Depends}

@@ -1,0 +1,3 @@
+rtems-cexp-beatnik binary: non-standard-dir-in-usr
+rtems-cexp-beatnik binary: file-in-unusual-dir
+# Cross compile lives in usr/*/include an similar
