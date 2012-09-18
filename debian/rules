@@ -33,107 +33,38 @@ CONFIG= --target=$(call DEB_TARGET_GNU_TYPE,$(1)) --build=$(DEB_BUILD_GNU_TYPE) 
  --with-rtems-top=/usr --enable-rtemsbsp="$($(1)_BSPS)" --enable-std-rtems-installdirs \
  --with-man-pages=no
 
+binary binary-arch binary-indep build install clean:
+	dh $@ --with rtems
+install: build
+binary-arch binary-indep: install
+binary: binary-arch binary-indep
 
-configure-pre:
-	dh_testdir
-	# Add here commands to configure the package.
+override_dh_auto_configure:
 ifneq "$(wildcard /usr/share/misc/config.sub)" ""
 	cp -f /usr/share/misc/config.sub config.sub
 endif
 ifneq "$(wildcard /usr/share/misc/config.guess)" ""
 	cp -f /usr/share/misc/config.guess config.guess
 endif
-	touch $@
+	install -d build-i386
+	cd build-i386 && ../configure $(call CONFIG,i386)
+	install -d build-powerpc
+	cd build-powerpc && ../configure $(call CONFIG,powerpc)
 
-build-%/config.status: configure configure-pre
-	test -d $(dir $@) || install -d $(dir $@)
-	cd $(dir $@) && ../configure $(call CONFIG,$(@:build-%/config.status=%))
-.SECONDARY: $(foreach arch,$(ARCHS),build-$(arch)/config.status)
+override_dh_auto_build:
+	# Clear CFLAGS to avoid clobbering target flags
+	env -u CFLAGS -u CXXFLAGS $(MAKE) $(BMAKEFLAGS) -C build-i386
+	env -u CFLAGS -u CXXFLAGS $(MAKE) $(BMAKEFLAGS) -C build-powerpc
 
-#Architecture
-build: build-arch build-indep
+override_dh_auto_test: # do nothing
 
-build-arch: build-arch-stamp
-build-arch-stamp: $(foreach arch,$(ARCHS),$(arch)-build)
-	touch $@
+override_dh_auto_install:
+	env -u CFLAGS -u CXXFLAGS $(MAKE) -C build-i386 DESTDIR=$(CURDIR)/debian/tmp install
+	env -u CFLAGS -u CXXFLAGS $(MAKE) -C build-powerpc DESTDIR=$(CURDIR)/debian/tmp install
 
-%-build: build-%/config.status 
+override_dh_install:
+	dh_install --list-missing # extra check for packaging omissions
 
-	# Add here commands to compile the arch part of the package.
-	env -u CFLAGS -u CXXFLAGS $(MAKE) $(BMAKEFLAGS) -C build-$(@:%-build=%)
-
-build-indep: build-indep-stamp
-build-indep-stamp: 
-
-	touch $@
-
-clean: 
-	dh_testdir
-	dh_testroot
-	rm -f build-arch-stamp build-indep-stamp 
-
+override_dh_auto_clean:
 	rm -rf $(foreach arch,$(ARCHS),build-$(arch))
 	rm -f configure-pre config.sub config.guess
-
-	dh_clean
-
-install: build install-indep install-arch
-install-indep:
-	dh_testdir
-	dh_testroot
-	dh_clean -k -i
-	dh_installdirs -i
-
-	dh_install -i
-
-install-arch-pre:
-	dh_testdir
-	dh_testroot
-	dh_clean -k -s
-	dh_installdirs -s
-
-	# Add here commands to install the arch part of the package into
-	# debian/tmp.
-
-%-install-arch:
-	# Add here commands to compile the arch part of the package.
-	env -u CFLAGS -u CXXFLAGS $(MAKE) -C build-$(@:%-install-arch=%) DESTDIR=$(CURDIR)/debian/tmp install
-
-install-cpu: $(foreach arch,$(ARCHS),$(arch)-install-arch)
-
-install-arch-post:
-	dh_install -s --list-missing
-
-install-arch: install-arch-pre install-cpu install-arch-post
-
-# Must not depend on anything. This is to be called by
-# binary-arch/binary-indep
-# in another 'make' thread.
-binary-common:
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs ChangeLog
-	dh_installdocs
-	dh_installdocs -A README* pmbfd/LICENSE
-	dh_installexamples
-	dh_installman
-	dh_link
-#	dh_strip
-	dh_compress
-	dh_fixperms
-#	dh_perl
-	dh_installdeb
-	dh_rtems
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-# Build architecture independant packages using the common target.
-binary-indep: build-indep install-indep
-	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
-
-# Build architecture dependant packages using the common target.
-binary-arch: build-arch install-arch
-	$(MAKE) -f debian/rules DH_OPTIONS=-s binary-common
-
-binary: binary-arch binary-indep
-.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch 
