@@ -63,4 +63,5 @@ Recommends: rtems-cexp-doc
 Description: C Expression shell and object loader from RTEMS
  Run-time interactive shell, dynamic loader, and other useful addons.
  .
- This package contains libraries and headers for 386 compatible cpu with standard PC hardware.
+ This package contains libraries and headers for 386 compatible cpu with
+ standard PC hardware.
