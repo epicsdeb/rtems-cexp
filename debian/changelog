@@ -1,3 +1,9 @@
+rtems-cexp (2.0b-6) unstable; urgency=low
+
+  * All binary packages are host independent
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Tue, 18 Sep 2012 14:20:51 -0400
+
 rtems-cexp (2.0b-5) unstable; urgency=low
 
   * auto detect rtems series
