@@ -77,7 +77,7 @@ clean:
 
 	dh_clean
 
-install: install-indep install-arch
+install: build install-indep install-arch
 install-indep:
 	dh_testdir
 	dh_testroot
