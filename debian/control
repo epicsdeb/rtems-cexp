@@ -5,7 +5,7 @@ Maintainer: Michael Davidsaver <mdavidsaver@bnl.gov>
 Build-Depends: debhelper (>= 7), rtems-debhelper, autotools-dev,
                rtems-common (>= 4.10.2-2~),
                rtems-mvme2100, rtems-mvme2307, rtems-mvme3100, rtems-mvme5500,
-               rtems-pc386
+               rtems-beatnik, rtems-pc386,
 Rtems-Depends: rtems
 Standards-Version: 3.8.0
 Homepage: http://www.slac.stanford.edu/~strauman/rtems
