@@ -17,7 +17,7 @@ NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 BMAKEFLAGS += -j$(NUMJOBS)
 endif
 
-RTEMS_VER ?=4.9
+RTEMS_VER ?= $(shell cat /usr/share/rtems-common/series)
 
 ARCHS=powerpc i386
 
