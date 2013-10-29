@@ -3,9 +3,9 @@ Section: devel
 Priority: extra
 Maintainer: Michael Davidsaver <mdavidsaver@bnl.gov>
 Build-Depends: debhelper (>= 7.0.50~), rtems-debhelper, autotools-dev,
-               rtems-common (>= 4.10.2-2~),
+               rtems-common (>= 4.9.6-1~),
                rtems-mvme2100, rtems-mvme2307, rtems-mvme3100, rtems-mvme5500,
-               rtems-beatnik, rtems-pc386,
+               rtems-pc386,
 Rtems-Depends: rtems
 Standards-Version: 3.8.0
 Homepage: http://www.slac.stanford.edu/~strauman/rtems
@@ -45,16 +45,6 @@ Description: C Expression shell and object loader from RTEMS
  Run-time interactive shell, dynamic loader, and other useful addons.
  .
  This package contains libraries and headers for the MVME5500 PowerPC based SBC
-
-Package: rtems-cexp-beatnik
-Architecture: all
-Depends: ${rtems:Depends}
-Recommends: rtems-cexp-doc
-Description: C Expression shell and object loader from RTEMS
- Run-time interactive shell, dynamic loader, and other useful addons.
- .
- This package contains libraries and headers for the beatnik BSP which
- supports MVME5500 and MVME6100 PowerPC based SBCs
 
 Package: rtems-cexp-pc386
 Architecture: all
