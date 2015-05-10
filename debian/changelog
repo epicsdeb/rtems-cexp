@@ -1,9 +1,16 @@
+rtems-cexp (2.0b-8) unstable; urgency=low
+
+  * Minor makefile change
+  * rebuild for jessie
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Sun, 10 May 2015 18:22:15 -0400
+
 rtems-cexp (2.0b-7) unstable; urgency=low
 
   * Change dependency to rtems-common (>=4.9.6-1~)
   * Remove rtems-beatnik to satisfy dependencies
 
- -- Leonid Flaks <flaks@ibnl.gov> Tue, 29 Oct 2013 13:25:39 -0400
+ -- Leonid Flaks <flaks@bnl.gov>  Tue, 29 Oct 2013 13:25:39 -0400
 
 rtems-cexp (2.0b-6) unstable; urgency=low
 

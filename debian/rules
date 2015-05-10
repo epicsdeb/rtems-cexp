@@ -28,8 +28,7 @@ i386_BSPS=pc386
 # from having to guess our platform (since we know it already)
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
-DEB_TARGET_GNU_TYPE ?= $(1)-rtems$(RTEMS_VER)
-CONFIG= --target=$(call DEB_TARGET_GNU_TYPE,$(1)) --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE) \
+CONFIG= --target=$(1)-rtems$(RTEMS_VER) --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE) \
  --with-rtems-top=/usr --enable-rtemsbsp="$($(1)_BSPS)" --enable-std-rtems-installdirs \
  --with-man-pages=no
 
@@ -61,9 +60,10 @@ override_dh_auto_test: # do nothing
 override_dh_auto_install:
 	env -u CFLAGS -u CXXFLAGS $(MAKE) -C build-i386 DESTDIR=$(CURDIR)/debian/tmp install
 	env -u CFLAGS -u CXXFLAGS $(MAKE) -C build-powerpc DESTDIR=$(CURDIR)/debian/tmp install
+	rm -f ./debian/tmp/usr/host/*-linux-gnu/bin/*-linux-gnu-xsyms
 
 override_dh_install:
-	dh_install --list-missing # extra check for packaging omissions
+	dh_install --fail-missing
 
 override_dh_auto_clean:
 	rm -rf $(foreach arch,$(ARCHS),build-$(arch))
